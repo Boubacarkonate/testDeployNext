@@ -14,29 +14,29 @@ const prisma = new PrismaClient();
 // };
 
 // Méthode GET (pour une tâche)
-export async function GET(req: Request, context: { params: { id: string } }) {
-  try {
-      const taskId = parseInt(context.params.id, 10);
-      if (isNaN(taskId)) {
-          return NextResponse.json({ error: "ID invalide" }, { status: 400 });
-      }
+// export async function GET(req: Request, context: { params: { id: string } }) {
+//   try {
+//       const taskId = parseInt(context.params.id, 10);
+//       if (isNaN(taskId)) {
+//           return NextResponse.json({ error: "ID invalide" }, { status: 400 });
+//       }
 
-      // Recherche de la tâche par son ID
-      const task = await prisma.task.findUnique({
-          where: { id: taskId },
-      });
+//       // Recherche de la tâche par son ID
+//       const task = await prisma.task.findUnique({
+//           where: { id: taskId },
+//       });
 
-      if (!task) {
-          return NextResponse.json({ error: "Tâche non trouvée" }, { status: 404 });
-      }
+//       if (!task) {
+//           return NextResponse.json({ error: "Tâche non trouvée" }, { status: 404 });
+//       }
 
-      // Retour de la tâche trouvée
-      return NextResponse.json(task, { status: 200 });
-           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error:any) {
-      return NextResponse.json({ error: "Erreur lors de la récupération de la tâche", details: error.message }, { status: 500 });
-  }
-}
+//       // Retour de la tâche trouvée
+//       return NextResponse.json(task, { status: 200 });
+//            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   } catch (error:any) {
+//       return NextResponse.json({ error: "Erreur lors de la récupération de la tâche", details: error.message }, { status: 500 });
+//   }
+// }
 
 // Méthode PUT (pour la mise à jour d'une tâche)
 export async function PUT(req: Request, context: { params: { id: string } }) {
