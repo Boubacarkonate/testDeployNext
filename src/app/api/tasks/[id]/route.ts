@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
+// import { PrismaClient } from "@prisma/client";
+// import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
-// Fonction pour récupérer une tâche par ID
+// // Fonction pour récupérer une tâche par ID
 // const getOneTask = async (id: string) => {
 //   const data = await prisma.task.findUnique({
 //     where: {
@@ -13,7 +13,7 @@ const prisma = new PrismaClient();
 //   return data;
 // };
 
-// Méthode GET (pour une tâche)
+// // Méthode GET (pour une tâche)
 // export async function GET(req: Request, context: { params: { id: string } }) {
 //   try {
 //       const taskId = parseInt(context.params.id, 10);
@@ -38,6 +38,127 @@ const prisma = new PrismaClient();
 //   }
 // }
 
+// // Méthode PUT (pour la mise à jour d'une tâche)
+// export async function PUT(req: Request, context: { params: { id: string } }) {
+//   try {
+//     const taskId = parseInt(context.params.id, 10);
+//     if (isNaN(taskId)) {
+//       return NextResponse.json({ error: "ID invalide ou manquant." }, { status: 400 });
+//     }
+
+//     const body = await req.json();
+
+//     if (!body || Object.keys(body).length === 0) {
+//       return NextResponse.json(
+//         { error: "Aucune donnée fournie pour la mise à jour." },
+//         { status: 400 }
+//       );
+//     }
+
+//     // Vérifier si la tâche existe avant de mettre à jour
+//     const existingTask = await prisma.task.findUnique({
+//       where: { id: taskId },
+//     });
+
+//     if (!existingTask) {
+//       return NextResponse.json({ error: "Tâche non trouvée." }, { status: 404 });
+//     }
+
+//     const updatedTask = await prisma.task.update({
+//       where: { id: taskId },
+//       data: body,
+//     });
+
+//     return NextResponse.json({
+//       message: "Tâche mise à jour avec succès.",
+//       data: updatedTask,
+//     }, { status: 200 });
+//      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     } catch (error: any) {
+//       return NextResponse.json(
+//           { message: "Erreur dans la modification de la tâche.", details: error.message },
+//           { status: 500 }
+//       );
+//   }
+// }
+
+// // Méthode DELETE (pour supprimer une tâche)
+// export async function DELETE(req: Request, context: { params: { id: string } }) {
+//   try {
+//     const taskId = parseInt(context.params.id, 10);
+//     if (isNaN(taskId)) {
+//       return NextResponse.json({ error: "ID invalide ou manquant." }, { status: 400 });
+//     }
+
+//     // Vérifier si la tâche existe avant de la supprimer
+//     const existingTask = await prisma.task.findUnique({
+//       where: { id: taskId },
+//     });
+
+//     if (!existingTask) {
+//       return NextResponse.json({ error: "Tâche non trouvée." }, { status: 404 });
+//     }
+
+//     const deletedData = await prisma.task.delete({
+//       where: {
+//         id: taskId,
+//       },
+//     });
+
+//     return NextResponse.json({
+//       message: "Tâche supprimée avec succès.",
+//       data: deletedData,
+//     });
+//    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   } catch (error: any) {
+//     return NextResponse.json(
+//         { message: "Erreur dans la suppression de la tâche.", details: error.message },
+//         { status: 500 }
+//     );
+// }
+// }
+
+
+///
+
+import { NextResponse } from "next/server";
+import { prisma } from "../../../lib/prisma"; // Assurez-vous d'avoir le fichier lib/prisma.ts
+
+// Fonction pour récupérer une tâche par ID
+const getOneTask = async (id: string) => {
+  const data = await prisma.task.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+  return data;
+};
+
+// Méthode GET (pour une tâche)
+export async function GET(req: Request, context: { params: { id: string } }) {
+  try {
+    const taskId = parseInt(context.params.id, 10);
+    if (isNaN(taskId)) {
+      return NextResponse.json({ error: "ID invalide" }, { status: 400 });
+    }
+
+    const task = await prisma.task.findUnique({
+      where: { id: taskId },
+    });
+
+    if (!task) {
+      return NextResponse.json({ error: "Tâche non trouvée" }, { status: 404 });
+    }
+
+    return NextResponse.json(task, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: "Erreur lors de la récupération de la tâche", details: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: "Erreur inconnue" }, { status: 500 });
+  }
+}
+
 // Méthode PUT (pour la mise à jour d'une tâche)
 export async function PUT(req: Request, context: { params: { id: string } }) {
   try {
@@ -49,13 +170,9 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
     const body = await req.json();
 
     if (!body || Object.keys(body).length === 0) {
-      return NextResponse.json(
-        { error: "Aucune donnée fournie pour la mise à jour." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Aucune donnée fournie pour la mise à jour." }, { status: 400 });
     }
 
-    // Vérifier si la tâche existe avant de mettre à jour
     const existingTask = await prisma.task.findUnique({
       where: { id: taskId },
     });
@@ -73,12 +190,11 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
       message: "Tâche mise à jour avec succès.",
       data: updatedTask,
     }, { status: 200 });
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      return NextResponse.json(
-          { message: "Erreur dans la modification de la tâche.", details: error.message },
-          { status: 500 }
-      );
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: "Erreur dans la modification de la tâche.", details: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ message: "Erreur inconnue" }, { status: 500 });
   }
 }
 
@@ -90,7 +206,6 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       return NextResponse.json({ error: "ID invalide ou manquant." }, { status: 400 });
     }
 
-    // Vérifier si la tâche existe avant de la supprimer
     const existingTask = await prisma.task.findUnique({
       where: { id: taskId },
     });
@@ -109,13 +224,12 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       message: "Tâche supprimée avec succès.",
       data: deletedData,
     });
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    return NextResponse.json(
-        { message: "Erreur dans la suppression de la tâche.", details: error.message },
-        { status: 500 }
-    );
-}
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: "Erreur dans la suppression de la tâche.", details: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ message: "Erreur inconnue" }, { status: 500 });
+  }
 }
 
 
