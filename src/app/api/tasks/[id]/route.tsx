@@ -4,14 +4,14 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 // Fonction pour récupérer une tâche par ID
-const getOneTask = async (id: string) => {
-  const data = await prisma.task.findUnique({
-    where: {
-      id: parseInt(id), // Assurez-vous que l'ID est un nombre entier
-    },
-  });
-  return data;
-};
+// const getOneTask = async (id: string) => {
+//   const data = await prisma.task.findUnique({
+//     where: {
+//       id: parseInt(id), // Assurez-vous que l'ID est un nombre entier
+//     },
+//   });
+//   return data;
+// };
 
 // Méthode GET (pour une tâche)
 export async function GET(req: Request, context: { params: { id: string } }) {
