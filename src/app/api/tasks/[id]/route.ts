@@ -122,17 +122,10 @@
 ///
 
 import { NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma"; // Assurez-vous d'avoir le fichier lib/prisma.ts
+import prisma from "../../../../../lib/prisma";
 
 // Fonction pour récupérer une tâche par ID
-const getOneTask = async (id: string) => {
-  const data = await prisma.task.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  return data;
-};
+
 
 // Méthode GET (pour une tâche)
 export async function GET(req: Request, context: { params: { id: string } }) {
