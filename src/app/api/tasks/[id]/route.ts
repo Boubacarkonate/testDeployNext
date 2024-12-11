@@ -68,11 +68,12 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
       message: "Tâche mise à jour avec succès.",
       data: updatedTask,
     }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur lors de la mise à jour de la tâche.", details: error.message },
-      { status: 500 }
-    );
+     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      return NextResponse.json(
+          { message: "Erreur dans la modification de la tâche.", details: error.message },
+          { status: 500 }
+      );
   }
 }
 
@@ -103,12 +104,13 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       message: "Tâche supprimée avec succès.",
       data: deletedData,
     });
-  } catch (error) {
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     return NextResponse.json(
-      { message: "Échec de la suppression de la tâche.", error: error.message },
-      { status: 500 }
+        { message: "Erreur dans la suppression de la tâche.", details: error.message },
+        { status: 500 }
     );
-  }
+}
 }
 
 
