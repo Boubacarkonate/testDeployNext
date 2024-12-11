@@ -6,8 +6,10 @@ import TaskItem from "../component/TaskItem";
 import { addTask, deleteTask, fetchTasks, updateTask } from "../services/taskService";
 
 const TaskList = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [tasks, setTasks] = useState<any[]>([]);
   const [taskName, setTaskName] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [editingTask, setEditingTask] = useState<any | null>(null);
   const [error, setError] = useState<string>("");
 
@@ -22,6 +24,7 @@ const TaskList = () => {
         } else {
           throw new Error("Les données récupérées ne sont pas un tableau");
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       }
@@ -39,6 +42,7 @@ const TaskList = () => {
       });
       setTasks((prevTasks) => [...prevTasks, newTask]); 
       setTaskName("");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
@@ -63,6 +67,7 @@ const TaskList = () => {
       } else {
         setEditingTask(null); // Annuler la modification si l'utilisateur refuse
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
@@ -74,6 +79,7 @@ const TaskList = () => {
       await deleteTask(taskId);
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
       setEditingTask(null);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }

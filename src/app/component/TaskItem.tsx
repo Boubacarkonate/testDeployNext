@@ -1,6 +1,9 @@
 interface TaskItemProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
     task: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     editingTask: any | null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setEditingTask: (task: any | null) => void;
     handleSaveTask: (taskId: number, updatedName: string) => void;
     handleDeleteTask: (taskId: number) => void;
