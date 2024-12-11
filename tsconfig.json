@@ -1,22 +1,29 @@
 {
   "compilerOptions": {
-    "noEmit": true, // Cela désactive la génération des fichiers .js
-    "strict": false, // Désactive les règles strictes pour une flexibilité accrue
-    "skipLibCheck": true, // Ignore la vérification des types dans les bibliothèques
-    "allowJs": true, // Permet d'utiliser du JavaScript en même temps que du TypeScript
-    "esModuleInterop": true, // Facilite l'importation des modules CommonJS
-    "module": "esnext", // Utilise le système de module ES
-    "moduleResolution": "node",
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "jsx": "preserve"
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "noImplicitAny": false,                  // Désactive la règle des types implicites `any`.
+    "strictNullChecks": false,               // Désactive les vérifications de `null` et `undefined`.
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
