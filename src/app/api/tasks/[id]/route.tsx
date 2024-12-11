@@ -14,27 +14,33 @@ const prisma = new PrismaClient();
 // };
 
 // Méthode GET (pour une tâche)
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(
+  req: Request,
+  context: { params: { id: string } } // Type correct pour `context`
+) {
   try {
-      const taskId = parseInt(context.params.id, 10);
-      if (isNaN(taskId)) {
-          return NextResponse.json({ error: "ID invalide" }, { status: 400 });
-      }
+    const taskId = parseInt(context.params.id, 10);
+    if (isNaN(taskId)) {
+      return NextResponse.json({ error: "ID invalide" }, { status: 400 });
+    }
 
-      // Recherche de la tâche par son ID
-      const task = await prisma.task.findUnique({
-          where: { id: taskId },
-      });
+    const task = await prisma.task.findUnique({
+      where: { id: taskId },
+    });
 
-      if (!task) {
-          return NextResponse.json({ error: "Tâche non trouvée" }, { status: 404 });
-      }
+    if (!task) {
+      return NextResponse.json({ error: "Tâche non trouvée" }, { status: 404 });
+    }
 
-      // Retour de la tâche trouvée
-      return NextResponse.json(task, { status: 200 });
-           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error:any) {
-      return NextResponse.json({ error: "Erreur lors de la récupération de la tâche", details: error.message }, { status: 500 });
+    return NextResponse.json(task, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { error: "Erreur lors de la récupération de la tâche", details: error.message },
+        { status: 500 }
+      );
+    }
+    return NextResponse.json({ error: "Erreur inconnue" }, { status: 500 });
   }
 }
 
