@@ -128,7 +128,19 @@ import prisma from "../../../../../lib/prisma";
 
 
 // Méthode GET (pour une tâche)
-export async function GET(req: Request, context: { params: { id: string } }) {
+
+// Fonction pour récupérer une tâche par ID
+// const getOneTask = async (id) => {
+//   const data = await prisma.task.findUnique({
+//     where: {
+//       id: parseInt(id),
+//     },
+//   });
+//   return data;
+// };
+
+// Méthode GET (pour une tâche)
+export async function GET(req, context) {
   try {
     const taskId = parseInt(context.params.id, 10);
     if (isNaN(taskId)) {
@@ -144,16 +156,16 @@ export async function GET(req: Request, context: { params: { id: string } }) {
     }
 
     return NextResponse.json(task, { status: 200 });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return NextResponse.json({ error: "Erreur lors de la récupération de la tâche", details: error.message }, { status: 500 });
-    }
-    return NextResponse.json({ error: "Erreur inconnue" }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur lors de la récupération de la tâche", details: error.message },
+      { status: 500 }
+    );
   }
 }
 
 // Méthode PUT (pour la mise à jour d'une tâche)
-export async function PUT(req: Request, context: { params: { id: string } }) {
+export async function PUT(req, context) {
   try {
     const taskId = parseInt(context.params.id, 10);
     if (isNaN(taskId)) {
@@ -183,16 +195,16 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
       message: "Tâche mise à jour avec succès.",
       data: updatedTask,
     }, { status: 200 });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return NextResponse.json({ message: "Erreur dans la modification de la tâche.", details: error.message }, { status: 500 });
-    }
-    return NextResponse.json({ message: "Erreur inconnue" }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Erreur dans la modification de la tâche.", details: error.message },
+      { status: 500 }
+    );
   }
 }
 
 // Méthode DELETE (pour supprimer une tâche)
-export async function DELETE(req: Request, context: { params: { id: string } }) {
+export async function DELETE(req, context) {
   try {
     const taskId = parseInt(context.params.id, 10);
     if (isNaN(taskId)) {
@@ -217,12 +229,10 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
       message: "Tâche supprimée avec succès.",
       data: deletedData,
     });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return NextResponse.json({ message: "Erreur dans la suppression de la tâche.", details: error.message }, { status: 500 });
-    }
-    return NextResponse.json({ message: "Erreur inconnue" }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Erreur dans la suppression de la tâche.", details: error.message },
+      { status: 500 }
+    );
   }
 }
-
-
