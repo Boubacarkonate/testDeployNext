@@ -1,38 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Application de gestion de tâches
 
-## Getting Started
+## Description
+Cette application est une solution web simple et efficace pour la gestion des tâches, conçue pour permettre aux utilisateurs de créer, modifier, afficher et supprimer des tâches. Chaque tâche peut être assignée à un utilisateur, et le design est optimisé grâce à **Next.js** et **Tailwind CSS**.
 
-First, run the development server:
+---
 
+## Fonctionnalités
+- **Gestion des tâches** :
+  - Créez des tâches avec un nom.
+  - Modifiez les tâches.
+  - Supprimez des tâches.
+
+---
+
+## Technologies utilisées
+- **Frontend** :
+  - [Next.js](https://nextjs.org) pour l'interface et les fonctionnalités côté client.
+  - [Tailwind CSS](https://tailwindcss.com) pour le style responsive.
+- **Backend** :
+  - [Prisma](https://www.prisma.io) comme ORM pour gérer la base de données MySQL.
+- **Base de données** : MySQL.
+
+---
+
+## Prérequis
+- Node.js (v16 ou supérieur).
+- npm, yarn, pnpm, ou bun.
+- Une instance MySQL ou PostgreSQL en cours d'exécution.
+
+---
+
+## Installation et configuration
+
+1. Clonez le repository :
+   ```bash
+   git clone <URL_DU_REPOSITORY>
+2. Accédez au répertoire du projet :
+   ```bash
+   cd application-gestion-taches
+3. Installez les dépendances :
+   ```bash
+   npm install
+4. Configurez la base de données : 
+-créer un fichier .env dans le répertoire racine avec le contenu suivant et remplacez <username>, <password> et <database_name> par vos informations.:
+   ```bash
+   DATABASE_URL="mysql://<username>:<password>@localhost:3306/<database_name>"
+5. Appliquez les migrations Prisma :
+   ```bash
+   npx prisma migrate dev
+6. Lancez le serveur de développement :
+   ```bash
+   npx prisma migrate
+7. Lancez le serveur de développement :
+   ```bash
+   npm run dev
+
+8. Accédez à l'application : Ouvrez votre navigateur et visitez http://localhost:3000.
+
+--------------------------------------
+Les endpoints API
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-### update db
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+GET  :  "/api/tasks"     pour récupérer la liste des tâches
+POST :  "/api/tasks"     pour ajouter une nouvelle tâche
+PUT  :  "/api/tasks/id"  pour modifier une tâche
+POST :  "/api/tasks/id"  pour supprimer une tâche
