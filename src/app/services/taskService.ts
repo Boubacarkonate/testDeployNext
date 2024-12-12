@@ -1,5 +1,5 @@
 export const fetchTasks = async () => {
-    const response = await fetch("http://localhost:3000/api/tasks");
+    const response = await fetch("https://test-deploy-next-u6zk.vercel.app/");
     if (!response.ok) {
       throw new Error("Erreur lors de la récupération des tâches");
     }
